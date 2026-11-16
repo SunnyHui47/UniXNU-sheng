@@ -9,7 +9,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2] / 'UniXNU'
 sys.path.insert(0, str(ROOT / 'scripts'))
-from unixnu.cli import parser, prepare
+from unixnu.cli import parser as unixnu_parser, prepare
 from unixnu.config import Context
 from unixnu.ipsw import Ipsw
 from unixnu.userdata import disk_blocks, image_size
@@ -23,7 +23,7 @@ def main():
                                       'scripts/extract-files.py')], check=True)
     subprocess.run([sys.executable, str(Path(__file__).resolve().parents[1] /
                                       'drivers/Ath12kWifi/tools/fetch-sources.py')], check=True)
-    ctx = Context(parser().parse_args(['build', 'kernel', '-D', str(Path(__file__).resolve().parents[1]),
+    ctx = Context(unixnu_parser().parse_args(['build', 'kernel', '-D', str(Path(__file__).resolve().parents[1]),
                                       '--os', 'macos-27']))
     prepare(ctx, ['kernel'])
     source = Ipsw(ctx)
